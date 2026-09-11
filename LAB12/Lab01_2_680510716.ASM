@@ -1,0 +1,69 @@
+TITLE	LAB12
+.MODEL	SMALL
+.STACK	100H
+
+.DATA
+PROMPT	DB	"ENTER THREE INITIALS: $"
+
+.CODE
+MAIN	PROC
+;initialise DS
+	MOV	AX, @DATA
+	MOV	DS, AX
+
+;display prompt
+	LEA	DX, PROMPT
+	MOV	AH, 09H
+	INT	21H
+
+;read initials
+	;read
+	MOV	AH, 01H
+
+	INT	21H
+	MOV	BL, AL
+	INT	21H
+	MOV	BH, AL
+	INT	21H
+	MOV	CL, AL
+
+;display initials
+	;out
+	MOV	AH, 02H
+
+	;new line
+	MOV	DL, 0DH
+	INT	21H
+	MOV	DL, 0AH
+	INT	21H
+
+	;FIRST CHAR
+	MOV	DL, BL
+	INT	21H
+
+	;new line
+	MOV	DL, 0DH
+	INT	21H
+	MOV	DL, 0AH
+	INT	21H
+
+	;SECOND CHAR
+	MOV	DL, BH
+	INT	21H
+
+	;new line
+	MOV	DL, 0DH
+	INT	21H
+	MOV	DL, 0AH
+	INT	21H
+
+	;LAST CHAR
+	MOV	DL, CL
+	INT	21H
+
+;DOS exit
+	MOV	AH, 4CH
+	INT	21H
+
+MAIN	ENDP
+	END	MAIN
