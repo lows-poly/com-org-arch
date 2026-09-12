@@ -34,25 +34,25 @@ MAIN	PROC
 	SUB	BL, 30H 
 
 ;default
-	MOV	BH, 1
-	MOV	CL, 0
-	MOV	CH, BL
+	MOV	CL, 0	;star counter
+	MOV	CH, 0	;row counter
 
 LINE_LOOP:
-	CMP	BL, BH
-	SUB	CH, BL
+	INC	CH	;new row
+	MOV	CL, 0	;reset star counter
+	CMP	BL, 0	;row remaining
 	JNZ	PRINT_STAR
 	JMP	EXIT
 
 STAR_LOOP:
-	CMP	CH, CL
+	CMP	CL, CH
 	JNZ	PRINT_STAR
 	;next_line
 	MOV	AH, 09H
 	LEA	DX, NL
 	INT	21H
 	;line_loop
-	INC	BH
+	DEC	BL
 	JMP	LINE_LOOP
 
 PRINT_STAR:
